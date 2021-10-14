@@ -17,7 +17,7 @@ options = {
 	viewSize: { x: G.WIDTH, y: G.HEIGHT },
 	isPlayingBgm: true,
 	isReplayEnabled: true,
-	seed: 42069,  // XD!!
+	seed: 35,  // Good seeds: 15, 17, 27, 28, 35
 	theme: "dark"
 };
 
@@ -79,7 +79,7 @@ function update() {
 		player = {
 			pos: vec(G.WIDTH * 0.5, G.HEIGHT * 0.5),
 			radius: 5,
-			thickness: 1
+			thickness: 7
 		};
 		circles = {
 			pos: vec(G.WIDTH * 0.5, G.HEIGHT * 0.5), 
@@ -88,11 +88,11 @@ function update() {
 		};
 		approachCircles = {
 			pos: vec(G.WIDTH * 0.5, G.HEIGHT * 0.5), 
-			radius: 30,
-			thickness: 2
+			radius: 45,
+			thickness: 3
 		};
 		healthBar = {
-			pos: vec(G.WIDTH/2, 10),
+			pos: vec(G.WIDTH/2, 12),
 			length: 100,
 			thickness: 5,
 			rotate: 0
@@ -100,6 +100,7 @@ function update() {
 		circleNum = 0;
 	}
 
+	color("yellow")
 	if (circleNum == 4)			// reset circle num at 4
 		circleNum = 0;
 
@@ -117,15 +118,16 @@ function update() {
 
 	color("black");
 	arc(posX, posY, approachCircles.radius, approachCircles.thickness);		// approach circle
-	color("yellow");
+	color("light_cyan");
 	arc(posX, posY, circles.radius, circles.thickness);			// normal circle
 
-	approachCircles.radius -= 0.5		// shrink approach circle, reset if radius = 0
-	if (approachCircles.radius == 0)
-		approachCircles.radius = 30;
+	if (approachCircles.radius > 0)
+		approachCircles.radius -= 0.75		// shrink approach circle, reset if radius = 0
+	if (approachCircles.radius <= 0)
+		approachCircles.radius = 45;
 
 	// hit boolean: if the cursor is colliding with the hit circle and the approach circle is colliding with the hit circle, hit = true
-	hit = arc(player.pos, player.radius, player.thickness).isColliding.rect["yellow"] && arc(posX, posY, circles.radius, circles.thickness).isColliding.rect["black"] && input.isJustPressed;
+	hit = arc(player.pos, player.radius, player.thickness).isColliding.rect["light_cyan"] && arc(posX, posY, circles.radius, circles.thickness).isColliding.rect["black"] && input.isJustPressed;
 
 	if (hit) {
 		play("hit");		// on successful hit, play sound and shoot particles
@@ -159,7 +161,7 @@ function update() {
 	arc(player.pos, player.radius, player.thickness);
 
 	if (input.isPressed) {			// extra cursor decor
-		color("yellow");
+		color("cyan");
 		particle(
 			player.pos.x,
 			player.pos.y,
