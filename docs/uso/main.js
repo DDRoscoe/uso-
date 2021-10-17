@@ -157,7 +157,7 @@ function update() {
 	
 	player.pos = vec(input.pos.x, input.pos.y);		// mouse input control
 	player.pos.clamp(0, G.WIDTH, 0, G.HEIGHT);		// limits character to canvas boundaries
-	color(input.isPressed ? "purple" : "cyan");
+	color(input.isPressed ? "purple" : "yellow");
 	arc(player.pos, player.radius, player.thickness);
 
 	if (input.isPressed) {			// extra cursor decor
